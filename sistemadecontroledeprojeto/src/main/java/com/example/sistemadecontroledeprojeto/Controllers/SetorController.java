@@ -1,11 +1,14 @@
 package com.example.sistemadecontroledeprojeto.Controllers;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sistemadecontroledeprojeto.Services.SetorService;
+import com.example.sistemadecontroledeprojeto.dtos.SetorDTO;
 import com.example.sistemadecontroledeprojeto.dtos.SetorRequestDTO;
 
 @RestController
@@ -22,4 +25,10 @@ public class SetorController {
         setorService.salvar(setorRequestDTO);
         
     }
+
+    @GetMapping("/{id}")
+    public SetorDTO buscarSetorPorId(@PathVariable Integer id) {
+        return setorService.obterPorId(id);
+    }   
+
 }
