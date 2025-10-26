@@ -5,7 +5,6 @@ import java.util.List;
 import com.example.sistemadecontroledeprojeto.dtos.ProjetoDTO;
 import com.example.sistemadecontroledeprojeto.dtos.ProjetoRequestDTO;
 
-
 public interface ProjetoService {
     void salvar(ProjetoRequestDTO projetoRequestDTO);
 
@@ -16,4 +15,6 @@ public interface ProjetoService {
     ProjetoDTO obterPorId(Integer id);
 
     List<ProjetoDTO> obterTodos();
+
+    void vincularFuncionario(Integer idProjeto, Integer idFuncionario);
 }

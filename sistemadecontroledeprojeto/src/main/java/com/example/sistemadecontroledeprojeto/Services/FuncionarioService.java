@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.sistemadecontroledeprojeto.dtos.FuncionarioDTO;
 import com.example.sistemadecontroledeprojeto.dtos.FuncionarioRequestDTO;
+import com.example.sistemadecontroledeprojeto.dtos.ProjetoDTO;
 
 public interface FuncionarioService {
 
@@ -16,4 +17,7 @@ public interface FuncionarioService {
     FuncionarioDTO obterPorId(Integer id);
 
     List<FuncionarioDTO> obterTodos();
+
+    List<ProjetoDTO> buscarProjetosPorFuncionario(Integer idFuncionario);
+
 }
