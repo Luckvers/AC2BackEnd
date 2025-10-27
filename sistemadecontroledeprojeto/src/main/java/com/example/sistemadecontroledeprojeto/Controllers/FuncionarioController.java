@@ -30,7 +30,7 @@ public class FuncionarioController {
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{idFuncionario}")
     public List<ProjetoDTO> buscarProjetos(@PathVariable Integer idFuncionario) {
         return funcionarioService.buscarProjetosPorFuncionario(idFuncionario);
     }
