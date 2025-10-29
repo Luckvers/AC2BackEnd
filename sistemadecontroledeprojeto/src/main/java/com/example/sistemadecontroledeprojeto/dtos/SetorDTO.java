@@ -1,5 +1,7 @@
 package com.example.sistemadecontroledeprojeto.dtos;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,5 +14,5 @@ import lombok.NoArgsConstructor;
 public class SetorDTO {
     private Integer id;
     private String nome;
-    private FuncionarioDTO funcionario;
+    private List<FuncionarioDTO> funcionario;
 }

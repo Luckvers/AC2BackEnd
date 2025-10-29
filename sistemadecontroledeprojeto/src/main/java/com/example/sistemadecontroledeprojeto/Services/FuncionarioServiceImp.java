@@ -11,6 +11,7 @@ import com.example.sistemadecontroledeprojeto.Models.Setor;
 import com.example.sistemadecontroledeprojeto.Repositories.FuncionarioRepository;
 import com.example.sistemadecontroledeprojeto.Repositories.ProjetoRepository;
 import com.example.sistemadecontroledeprojeto.Repositories.SetorRepository;
+import com.example.sistemadecontroledeprojeto.dtos.FuncionarioDTO;
 import com.example.sistemadecontroledeprojeto.dtos.FuncionarioRequestDTO;
 import com.example.sistemadecontroledeprojeto.dtos.ProjetoDTO;
 import com.example.sistemadecontroledeprojeto.dtos.RegraNegocioException;
@@ -53,6 +54,12 @@ public class FuncionarioServiceImp implements FuncionarioService {
                                                 .descricao(proj.getDescricao())
                                                 .dataInicio(proj.getDataInicio())
                                                 .dataFim(proj.getDataFim())
+                                                .funcionarios(proj.getFuncionario().stream()
+                                                                .map(func -> FuncionarioDTO.builder()
+                                                                .id(func.getId())
+                                                                .nome(func.getNome())
+                                                                .build())
+                                                                .toList())
                                                 .build())
                                 .collect(Collectors.toList());
         }

@@ -1,17 +1,17 @@
 package com.example.sistemadecontroledeprojeto.Services;
 
-
 import org.springframework.stereotype.Service;
 
 import com.example.sistemadecontroledeprojeto.Models.Setor;
 import com.example.sistemadecontroledeprojeto.Repositories.SetorRepository;
+import com.example.sistemadecontroledeprojeto.dtos.FuncionarioDTO;
 import com.example.sistemadecontroledeprojeto.dtos.RegraNegocioException;
 import com.example.sistemadecontroledeprojeto.dtos.SetorDTO;
 import com.example.sistemadecontroledeprojeto.dtos.SetorRequestDTO;
 
 @Service
 public class SetorServiceImp implements SetorService {
-private SetorRepository setorRepository;
+    private SetorRepository setorRepository;
 
     public SetorServiceImp(SetorRepository setorRepository) {
         this.setorRepository = setorRepository;
@@ -26,11 +26,18 @@ private SetorRepository setorRepository;
 
     @Override
     public SetorDTO obterPorId(Integer id) {
+
         return setorRepository.findById(id)
-            .map(setor -> SetorDTO.builder()
-                .id(setor.getId())
-                .nome(setor.getNome())
-                .build())
-            .orElseThrow(() -> new RegraNegocioException("Setor não encontrado"));
+                .map(setor -> SetorDTO.builder()
+                        .id(setor.getId())
+                        .nome(setor.getNome())
+                        .funcionario(setor.getFuncionarios().stream()
+                                .map(func -> FuncionarioDTO.builder()
+                                        .id(func.getId())
+                                        .nome(func.getNome())
+                                        .build())
+                                .toList())
+                        .build())
+                .orElseThrow(() -> new RegraNegocioException("Setor não encontrado"));
     }
 }
