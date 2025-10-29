@@ -1,6 +1,5 @@
 package com.example.sistemadecontroledeprojeto.dtos;
 import java.time.LocalDate;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,5 +15,4 @@ public class ProjetoRequestDTO {
     private String descricao;
     private LocalDate dataInicio;
     private LocalDate dataFim;
-    private List<Integer> IdsFuncionarios ;
 }

@@ -27,15 +27,10 @@ public class ProjetoServiceImp implements ProjetoService {
         @Override
         public void salvar(ProjetoRequestDTO projetoRequestDTO) {
 
-                List<Funcionario> funcionarios = funcionarioRepository
-                                .findAllById(projetoRequestDTO.getIdsFuncionarios());
-
                 Projeto projeto = new Projeto();
                 projeto.setDescricao(projetoRequestDTO.getDescricao());
                 projeto.setDataInicio(projetoRequestDTO.getDataInicio());
                 projeto.setDataFim(projetoRequestDTO.getDataFim());
-                projeto.setFuncionario(funcionarios);
-
                 projetoRepository.save(projeto);
         }
 
@@ -56,28 +51,7 @@ public class ProjetoServiceImp implements ProjetoService {
                                                 .build())
                                 .orElseThrow(() -> new RegraNegocioException("Projeto não encontrado"));
         }
-
-        @Override
-        public void remover(Integer id) {
-                projetoRepository.deleteById(id);
-        }
-
-        @Override
-        public void editar(Integer id, ProjetoRequestDTO projetoRequestDTO) {
-                Projeto projeto = projetoRepository.findById(id)
-                                .orElseThrow(() -> new RegraNegocioException("Projeto não encontrado"));
-
-                List<Funcionario> funcionarios = funcionarioRepository
-                                .findAllById(projetoRequestDTO.getIdsFuncionarios());
-
-                projeto.setDescricao(projetoRequestDTO.getDescricao());
-                projeto.setDataInicio(projetoRequestDTO.getDataInicio());
-                projeto.setDataFim(projetoRequestDTO.getDataFim());
-                projeto.setFuncionario(funcionarios);
-
-                projetoRepository.save(projeto);
-        }
-
+        
         @Override
         public List<ProjetoDTO> obterTodos() {
                 return projetoRepository.findAll().stream()
@@ -103,6 +77,7 @@ public class ProjetoServiceImp implements ProjetoService {
                 Funcionario funcionario = funcionarioRepository.findById(idFuncionario)
                                 .orElseThrow(() -> new RegraNegocioException("Funcionário não encontrado"));
                 projeto.getFuncionario().add(funcionario);
+                funcionario.getProjeto().add(projeto);
                 projetoRepository.save(projeto);
         }
 }

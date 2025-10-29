@@ -1,5 +1,7 @@
 package com.example.sistemadecontroledeprojeto.Controllers;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,11 @@ public class ProjetoController {
     @GetMapping("/{id}")
     public ProjetoDTO buscarProjetoPorId(@PathVariable Integer id) {
         return projetoService.obterPorId(id);
+    }
+
+    @GetMapping
+    public List<ProjetoDTO> obterTodos() {
+        return projetoService.obterTodos();
     }
 
     @PostMapping("/{idProjeto}/funcionarios/{idFuncionario}")

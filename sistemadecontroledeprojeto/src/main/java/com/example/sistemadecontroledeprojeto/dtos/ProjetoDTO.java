@@ -17,6 +17,6 @@ public class ProjetoDTO {
     private String descricao;
     private LocalDate dataInicio;
     private LocalDate dataFim;
-     private List<FuncionarioDTO> funcionarios;
+    private List<FuncionarioDTO> funcionarios;
     
 }

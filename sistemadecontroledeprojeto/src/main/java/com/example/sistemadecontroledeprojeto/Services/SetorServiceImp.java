@@ -1,7 +1,5 @@
 package com.example.sistemadecontroledeprojeto.Services;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -34,32 +32,5 @@ private SetorRepository setorRepository;
                 .nome(setor.getNome())
                 .build())
             .orElseThrow(() -> new RegraNegocioException("Setor não encontrado"));
-    }
-
-    @Override
-    public void editar(Integer id, SetorRequestDTO setorRequestDTO) {
-        Setor setor = setorRepository.findById(id)
-            .orElseThrow(() -> new RegraNegocioException("Setor não encontrado"));
-
-        setor.setNome(setorRequestDTO.getNome());
-        setorRepository.save(setor);
-    }
-
-    @Override
-    public void remover(Integer id) {
-        if (!setorRepository.existsById(id)) {
-            throw new RegraNegocioException("Setor não encontrado");
-        }
-        setorRepository.deleteById(id);
-    }
-
-    @Override
-    public List<SetorDTO> obterTodos() {
-        return setorRepository.findAll().stream()
-            .map(s -> SetorDTO.builder()
-                .id(s.getId())
-                .nome(s.getNome())
-                .build())
-            .collect(Collectors.toList());
     }
 }

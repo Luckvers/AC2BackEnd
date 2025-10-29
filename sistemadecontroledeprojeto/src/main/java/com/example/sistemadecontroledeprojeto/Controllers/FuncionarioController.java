@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sistemadecontroledeprojeto.Services.FuncionarioService;
-import com.example.sistemadecontroledeprojeto.dtos.FuncionarioDTO;
 import com.example.sistemadecontroledeprojeto.dtos.FuncionarioRequestDTO;
 import com.example.sistemadecontroledeprojeto.dtos.ProjetoDTO;
 
