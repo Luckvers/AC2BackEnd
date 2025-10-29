@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Projetos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            background: #f0f0f0;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 6px;
+            margin-top: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #2a9d8f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #21867a;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Projetos</h1>
+
+    <ul id="lista-projetos">
+
+    </ul>
+
+    <form id="form-projeto">
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao" name="descricao" required />
+
+        <label for="dataInicio">Data Início:</label>
+        <input type="date" id="dataInicio" name="dataInicio" required />
+
+        <label for="dataFim">Data Fim:</label>
+        <input type="date" id="dataFim" name="dataFim" />
+
+        <button type="submit">Adicionar Projeto</button>
+    </form>
+
+    <div id="mensagem" class="message"></div>
+
+    <script>
+        const listaProjetos = document.getElementById('lista-projetos');
+        const formProjeto = document.getElementById('form-projeto');
+        const mensagem = document.getElementById('mensagem');
+
+        async function carregarProjetos() {
+            listaProjetos.innerHTML = 'Carregando...';
+            try {
+                const response = await fetch('http://localhost:8082/projetos');
+                if (!response.ok) throw new Error('Erro ao buscar projetos');
+                const projetos = await response.json();
+                if (projetos.length === 0) {
+                    listaProjetos.innerHTML = '<li>Nenhum projeto cadastrado.</li>';
+                    return;
+                }
+                listaProjetos.innerHTML = '';
+                projetos.forEach(projeto => {
+                    const li = document.createElement('li');
+                    li.textContent = `${projeto.descricao} (Início: ${projeto.dataInicio} - Fim: ${projeto.dataFim || 'N/A'})`;
+                    listaProjetos.appendChild(li);
+                });
+            } catch (error) {
+                listaProjetos.innerHTML = '<li>Erro ao carregar projetos.</li>';
+            }
+        }
+
+        formProjeto.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            mensagem.textContent = '';
+            mensagem.className = 'message';
+
+            const descricao = formProjeto.descricao.value.trim();
+            const dataInicio = formProjeto.dataInicio.value;
+            const dataFim = formProjeto.dataFim.value;
+
+            if (!descricao || !dataInicio) {
+                mensagem.textContent = 'Descrição e Data Início são obrigatórios.';
+                mensagem.classList.add('error');
+                return;
+            }
+
+            const novoProjeto = {
+                descricao,
+                dataInicio,
+                dataFim: dataFim || null,
+            };
+
+            try {
+                const response = await fetch('http://localhost:8082/projetos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(novoProjeto)
+                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Erro ao adicionar projeto');
+                }
+                mensagem.textContent = 'Projeto adicionado com sucesso!';
+                mensagem.classList.add('success');
+                formProjeto.reset();
+                carregarProjetos();
+            } catch (error) {
+                mensagem.textContent = error.message;
+                mensagem.classList.add('error');
+            }
+        });
+
+        carregarProjetos();
+    </script>
+
+</body>
+
+</html>
